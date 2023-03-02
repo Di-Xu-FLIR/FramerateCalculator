@@ -12,3 +12,6 @@ hold on
 plot(x, y(B,x), '-r')
 hold off
 grid
+
+filename = 'C:\Users\dxu\Documents\GitHub\FramerateCalculator\csv\BFS-U3-50S5C.csv';
+M = csvread(filename);
