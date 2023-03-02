@@ -1,5 +1,4 @@
 # Import required packages
-%matplotlib inline
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -23,7 +22,43 @@ y_dummy = y_dummy + noise
 
 
 # Plot the noisy exponential data
+# Edit the font, font size, and axes width
+# mpl.rcParams['font.family'] = 'Avenir'
+plt.rcParams['font.size'] = 18
+plt.rcParams['axes.linewidth'] = 2
+
+# Create figure object and store it in a variable called 'fig'
+fig = plt.figure(figsize=(3, 3))
+
+# Add axes object to our figure that takes up entire figure
+ax = fig.add_axes([0, 0, 1, 1])
+
+# Edit the major and minor ticks of the x and y axes
+ax.xaxis.set_tick_params(which='major', size=10, width=2, direction='in', top='on')
+ax.xaxis.set_tick_params(which='minor', size=7, width=2, direction='in', top='on')
+ax.yaxis.set_tick_params(which='major', size=10, width=2, direction='in', right='on')
+ax.yaxis.set_tick_params(which='minor', size=7, width=2, direction='in', right='on')
+
+# Edit the major and minor tick locations of x and y axes
+ax.xaxis.set_major_locator(mpl.ticker.MultipleLocator(5))
+ax.xaxis.set_minor_locator(mpl.ticker.MultipleLocator(1))
+ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(200))
+ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(100))
+
+# Plot the noisy exponential data
 ax.scatter(x_dummy, y_dummy, s=20, color='#00b3b3', label='Data')
+
+# Add the x and y-axis labels
+ax.set_xlabel('x-data', labelpad=10)
+ax.set_ylabel('y-data', labelpad=10)
+
+# Set the axis limits
+ax.set_xlim(4.5, 15.5)
+ax.set_ylim(1, 1000)
+
+#plt.savefig('dummy_dataset_exponential.png', dpi=100, bbox_inches='tight')
+plt.show()
+
 
 # Set the y-axis scaling to logarithmic
 ax.set_yscale('log')
