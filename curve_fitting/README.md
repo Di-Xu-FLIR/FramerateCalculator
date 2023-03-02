@@ -10,6 +10,7 @@ Python is used in the curve_fitting part of the project. Below are steps to setu
 
 ### Activating a virtual environment 
 `.\env\Scripts\activate` 
+
 To enable the execution of the command above, you may need to do the following before running the command. Right click "Windows PowerShell" --> Run as an administrator --> in Windows PowerShell, you can set the execution policy by typing "Set-ExecutionPolicy RemoteSigned" and press "enter".
  
 

@@ -10,15 +10,22 @@ def exponential(x, a, b):
     return a*np.exp(b*x)
 
 
+# Function to calculate the exponential with constants a and b
+def inverse_func(x, a, b):
+    return a/x+b
+
+
 # Generate dummy dataset
-x_dummy = np.linspace(start=5, stop=15, num=50)
+# x_dummy = np.linspace(start=5, stop=15, num=50)
+x_dummy = np.linspace(start=0.1, stop=1500, num=50)
 
 # Calculate y-values based on dummy x-values
-y_dummy = exponential(x_dummy, 0.5, 0.5)
+# y_dummy = exponential(x_dummy, 0.5, 0.5)
+y_dummy = inverse_func(x_dummy, 1000, 0)
 
-# Add noise from a Gaussian distribution
-noise = 5*np.random.normal(size=y_dummy.size)
-y_dummy = y_dummy + noise
+# # Add noise from a Gaussian distribution
+# noise = 5*np.random.normal(size=y_dummy.size)
+# y_dummy = y_dummy + noise
 
 
 # Plot the noisy exponential data
@@ -58,6 +65,7 @@ ax.set_ylim(1, 1000)
 
 #plt.savefig('dummy_dataset_exponential.png', dpi=100, bbox_inches='tight')
 plt.show()
+
 
 
 # Set the y-axis scaling to logarithmic
