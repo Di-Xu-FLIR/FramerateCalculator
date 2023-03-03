@@ -34,3 +34,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# curve_fitting
+curve_fitting/env/
+csv/
+curve_fitting/*.asv
+curve_fitting/curve-fitting-tutorial.ipynb
+curve_fitting/README_curvefitting
+curve_fitting/*.jpg
+curve_fitting/doc/
+*.asv
