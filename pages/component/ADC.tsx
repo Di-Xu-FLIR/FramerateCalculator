@@ -26,6 +26,7 @@ const ADC = () => {
                     {ADCData.map((adc) => {
                         return (
                             <li
+                                key={adc.id}
                                 className="bg-white p-2 hover:bg-slate-200 cursor-pointer text-left font-semibold"
                                 onClick={() => {
                                     setSelectedADC(adc.name), setIsOpen(false);

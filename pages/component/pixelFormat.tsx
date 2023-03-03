@@ -44,6 +44,7 @@ const PixelFormat = () => {
                     {PixelFormatData.map((pixel) => {
                         return (
                             <li
+                                key={pixel.id}
                                 className="bg-white p-2 hover:bg-slate-200 cursor-pointer text-left font-semibold"
                                 onClick={() => {
                                     setSelectedPixelFormat(pixel.name);
