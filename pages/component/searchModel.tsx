@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp, MdOutlineSearch } from "react-icons/md";
-import getData from "../lib/getData";
 
 const cameras = [
     { id: 1, name: "BFS-U3-27S5C" },
@@ -10,16 +9,19 @@ const cameras = [
 ];
 
 type Camera = { id: number; name: string };
-
-const SearchModel = ({ data }) => {
+type SearchModelProps = {
+    modelList: string[];
+    selectedModel: string;
+    setSelectedModel: (camera: string) => void;
+};
+const SearchModel = ({ modelList, selectedModel, setSelectedModel }: SearchModelProps) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedCamera, setSelectedCamera] = useState("Select Camera");
     const [query, setQuery] = useState("");
-    // console.log(data);
+    // const [selectedCamera, setSelectedCamera] = useState("Select Camera");
 
-    const filterModel = (query: string, arr: Camera[]) => {
+    const filterModel = (query: string, arr: string[]) => {
         if (!query || query.length < 2) return arr;
-        return arr.filter((camera) => camera.name.includes(query.toUpperCase()));
+        return arr.filter((camera) => camera.includes(query.toUpperCase()));
     };
 
     return (
@@ -28,7 +30,7 @@ const SearchModel = ({ data }) => {
                 className="SelectBtn border border-black h-14 p-4 flex items-center justify-between cursor-pointer"
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <span>{selectedCamera}</span>
+                <span>{selectedModel}</span>
                 {isOpen ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
             </div>
 
@@ -45,17 +47,17 @@ const SearchModel = ({ data }) => {
                 </div>
 
                 <ul className="Options mt-2 overflow-y-auto max-h-40">
-                    {filterModel(query, cameras).map((camera) => {
+                    {filterModel(query, modelList).map((camera) => {
                         return (
                             <li
-                                key={camera.id}
+                                key={camera}
                                 className="bg-white p-2 hover:bg-slate-200 cursor-pointer text-left font-semibold"
                                 onClick={() => {
-                                    setSelectedCamera(camera.name);
+                                    setSelectedModel(camera);
                                     setIsOpen(false);
                                 }}
                             >
-                                {camera.name}
+                                {camera}
                             </li>
                         );
                     })}

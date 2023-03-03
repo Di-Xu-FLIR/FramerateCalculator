@@ -6,9 +6,26 @@ import RangeSlider from "./component/rangeSlider";
 import ToggleButton from "./component/toggleButton";
 import LineChart from "./component/chart";
 import ADC from "./component/ADC";
-import { getListOfAvailableModels } from "./lib/getData";
+import { useEffect, useState } from "react";
 
-export default function Home({ data }) {
+export default function Home() {
+    const [modelList, setModelList] = useState(["BFS-U3-32S4C", "BFS-U3-31S4C", "BFS-U3-27S5C"]);
+    const [selectedModel, setSelectedModel] = useState("Select Camera");
+    const [modelInfo, setModelInfo] = useState(null);
+
+    useEffect(() => {
+        const fetchModelList = async () => {
+            const resp = await fetch("/api/getModelList");
+            const json = await resp.json();
+            setModelList(json);
+        };
+        fetchModelList();
+    }, []);
+
+    useEffect(() => {
+        console.log(selectedModel);
+    }, [selectedModel]);
+
     return (
         <div className="flex flex-col bg-gray-100 dark:bg-[#04041B] min-h-screen  ">
             {/* Tab */}
@@ -28,7 +45,11 @@ export default function Home({ data }) {
             {/* Main */}
             <main className="flex flex-col md:flex-row gap-2 p-2 lg:gap-8 lg:p-8 ">
                 <div className="md:w-3/12 w-full border min-h-full bg-[#F1F1FB] text-gray-800">
-                    <SearchModel data={data} />
+                    <SearchModel
+                        modelList={modelList}
+                        selectedModel={selectedModel}
+                        setSelectedModel={setSelectedModel}
+                    />
                     <PixelFormat />
                     <ADC />
                     <RangeSlider max="2000" min="400" step="10" text="ROI Width" />
@@ -51,16 +72,4 @@ export default function Home({ data }) {
             </main>
         </div>
     );
-}
-
-export async function getServerSideProps() {
-    console.log("getServerSideProps called");
-    const data = await getListOfAvailableModels();
-
-    const serializedData = JSON.parse(JSON.stringify(data));
-    return {
-        props: {
-            data: serializedData,
-        },
-    };
 }
