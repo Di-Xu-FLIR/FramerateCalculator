@@ -16,7 +16,7 @@ const SearchModel = () => {
     const [query, setQuery] = useState("");
 
     const filterModel = (query: string, arr: Camera[]) => {
-        if (!query) return arr;
+        if (!query || query.length < 2) return arr;
         return arr.filter((camera) => camera.name.includes(query.toUpperCase()));
     };
 
