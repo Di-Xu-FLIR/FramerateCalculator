@@ -8,9 +8,17 @@ const cameras = [
     { id: 4, name: "LD-5" },
 ];
 
+type Camera = { id: number; name: string };
+
 const SearchModel = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCamera, setSelectedCamera] = useState("Select Camera");
+    const [query, setQuery] = useState("");
+
+    const filterModel = (query: string, arr: Camera[]) => {
+        if (!query) return arr;
+        return arr.filter((camera) => camera.name.includes(query.toUpperCase()));
+    };
 
     return (
         <div className="DropdownWithSearch w-full my-auto p-4">
@@ -29,11 +37,13 @@ const SearchModel = () => {
                         type="text"
                         placeholder="Search"
                         className="bg-white h-10 w-full pl-10 outline-none"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
                     />
                 </div>
 
                 <ul className="Options mt-2 overflow-y-auto max-h-40">
-                    {cameras.map((camera) => {
+                    {filterModel(query, cameras).map((camera) => {
                         return (
                             <li
                                 key={camera.id}
