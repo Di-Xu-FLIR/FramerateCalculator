@@ -8,13 +8,16 @@ type RangeSliderProps = {
 };
 
 const RangeSlider = ({ max, min, step, text }: RangeSliderProps) => {
-    const rangeRef = useRef(null);
+    const rangeRef = useRef<HTMLInputElement>(null);
 
-    const [value, setValue] = useState(650);
+    const [value, setValue] = useState<number>(650);
     const handleChange = () => {
-        setValue(rangeRef.current.value);
+        if (rangeRef.current) setValue(parseInt(rangeRef.current.value));
     };
 
+    const handleNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(parseInt(e.target.value));
+    };
     return (
         <>
             <label className="px-4">{text}</label>
@@ -33,8 +36,12 @@ const RangeSlider = ({ max, min, step, text }: RangeSliderProps) => {
                 {max}
                 <input
                     type="number"
-                    className="w-20 outline-none bg-white border border-gray-800 p-1"
+                    className="w-16 outline-none bg-white border border-gray-800 p-1"
                     value={value}
+                    onChange={handleNumberInputChange}
+                    max={parseInt(max)}
+                    min={parseInt(min)}
+                    step={parseInt(step)}
                 />
             </div>
         </>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp, MdOutlineSearch } from "react-icons/md";
+import getData from "../lib/getData";
 
 const cameras = [
     { id: 1, name: "BFS-U3-27S5C" },
@@ -10,10 +11,11 @@ const cameras = [
 
 type Camera = { id: number; name: string };
 
-const SearchModel = () => {
+const SearchModel = ({ data }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCamera, setSelectedCamera] = useState("Select Camera");
     const [query, setQuery] = useState("");
+    // console.log(data);
 
     const filterModel = (query: string, arr: Camera[]) => {
         if (!query || query.length < 2) return arr;
