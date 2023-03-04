@@ -7,11 +7,13 @@ import ToggleButton from "./component/toggleButton";
 import LineChart from "./component/chart";
 import ADC from "./component/ADC";
 import { useEffect, useState } from "react";
+import { findDistinct } from "./lib/helper";
 
 export default function Home() {
     const [modelList, setModelList] = useState(["BFS-U3-32S4C", "BFS-U3-31S4C", "BFS-U3-27S5C"]);
     const [selectedModel, setSelectedModel] = useState("Select Camera");
     const [modelInfo, setModelInfo] = useState(null);
+    const [pixelFormat, setPixelFormat] = useState([""]);
 
     useEffect(() => {
         const fetchModelList = async () => {
@@ -24,6 +26,24 @@ export default function Home() {
 
     useEffect(() => {
         console.log(selectedModel);
+
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cameraName: selectedModel }),
+        };
+
+        const fetchModel = async () => {
+            const resp = await fetch("/api/cameraData", requestOptions);
+            const json = await resp.json();
+            setModelInfo(json);
+        };
+        fetchModel();
+        if (modelInfo) {
+            const pixelFormat = findDistinct(modelInfo);
+            setPixelFormat(pixelFormat);
+            console.log(pixelFormat);
+        }
     }, [selectedModel]);
 
     return (
@@ -43,14 +63,14 @@ export default function Home() {
             <ThemeChanger />
 
             {/* Main */}
-            <main className="flex flex-col md:flex-row gap-2 p-2 lg:gap-8 lg:p-8 ">
+            <main className="flex flex-col md:flex-row gap-2 p-2 lg:gap-8 lg:p-4 ">
                 <div className="md:w-3/12 w-full border min-h-full bg-[#F1F1FB] text-gray-800">
                     <SearchModel
                         modelList={modelList}
                         selectedModel={selectedModel}
                         setSelectedModel={setSelectedModel}
                     />
-                    <PixelFormat />
+                    <PixelFormat pixelFormat={pixelFormat} />
                     <ADC />
                     <RangeSlider max="2000" min="400" step="10" text="ROI Width" />
                     <RangeSlider max="2000" min="400" step="10" text="ROI Height" />

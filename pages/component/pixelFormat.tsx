@@ -2,31 +2,31 @@ import { useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 
 const PixelFormatData = [
-    { id: 1, name: "Mono8" },
-    { id: 2, name: "Mono16" },
-    { id: 3, name: "RGB8Packed" },
-    { id: 4, name: "BayerRG8" },
-    { id: 5, name: "BayerRG16" },
-    { id: 6, name: "Mono10Pack" },
-    { id: 7, name: "BayerRG10Packed" },
-    { id: 8, name: "Mono12Packed" },
-    { id: 9, name: "BayerRG12Packed" },
-    { id: 10, name: "YUV411Packed" },
-    { id: 11, name: "YUV422Packed" },
-    { id: 12, name: "YUV444Packed" },
-    { id: 13, name: "Mono10p" },
-    { id: 14, name: "BayerRG10p" },
-    { id: 15, name: "Mono12p" },
-    { id: 16, name: "BayerRG12p" },
-    { id: 17, name: "YCbCr8" },
-    { id: 18, name: "YCbCr422_8" },
-    { id: 19, name: "YCbCr411_8" },
-    { id: 20, name: "BGR8" },
-    { id: 21, name: "BGRa8" },
-    { id: 22, name: "LLCBayerRG8" },
+    "Mono8",
+    "Mono16",
+    "RGB8Packed",
+    "BayerRG8",
+    "BayerRG16",
+    "Mono10Pack",
+    "BayerRG10Packed",
+    "Mono12Packed",
+    "BayerRG12Packed",
+    "YUV411Packed",
+    "YUV422Packed",
+    "YUV444Packed",
+    "Mono10p",
+    "BayerRG10p",
+    "Mono12p",
+    "BayerRG12p",
+    "YCbCr8",
+    "YCbCr422_8",
+    "YCbCr411_8",
+    "BGR8",
+    "BGRa8",
+    "LLCBayerRG8",
 ];
 
-const PixelFormat = () => {
+const PixelFormat = ({ pixelFormat }: { pixelFormat: string[] }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedPixelFormat, setSelectedPixelFormat] = useState("Select Pixel Format");
     return (
@@ -41,20 +41,22 @@ const PixelFormat = () => {
 
             <div className={`Content mt-2 ${isOpen ? "" : "hidden"}`}>
                 <ul className="Options mt-2 overflow-y-auto max-h-40">
-                    {PixelFormatData.map((pixel) => {
-                        return (
-                            <li
-                                key={pixel.id}
-                                className="bg-white p-2 hover:bg-slate-200 cursor-pointer text-left font-semibold"
-                                onClick={() => {
-                                    setSelectedPixelFormat(pixel.name);
-                                    setIsOpen(false);
-                                }}
-                            >
-                                {pixel.name}
-                            </li>
-                        );
-                    })}
+                    {(pixelFormat.length > 0 ? pixelFormat : PixelFormatData).map(
+                        (pixel: string) => {
+                            return (
+                                <li
+                                    key={pixel}
+                                    className="bg-white p-2 hover:bg-slate-200 cursor-pointer text-left font-semibold"
+                                    onClick={() => {
+                                        setSelectedPixelFormat(pixel);
+                                        setIsOpen(false);
+                                    }}
+                                >
+                                    {pixel}
+                                </li>
+                            );
+                        }
+                    )}
                 </ul>
             </div>
         </div>
