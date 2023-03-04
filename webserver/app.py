@@ -6,7 +6,9 @@ import json
 
 app = Flask(__name__)
 
-CORS(app)
+# allow requests from all origins 
+CORS(app, resources={r"/*": {"origins": "*"}})
+
 
 # create a file handler for the log file
 handler = logging.FileHandler('app.log')

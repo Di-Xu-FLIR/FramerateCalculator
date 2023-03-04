@@ -1,26 +1,26 @@
-callWs = function(){
-	// The Endpoint URL
-	let url = 'https://jsonplaceholder.typicode.com/posts/1';
-	fetch(url)
-  .then(function(response) {
-  	// Render the Response Status
-  	document.getElementById('result').innerHTML = response.status;
-    // Parse the body as JSON
-    return response.json();
-  })
-  .then(function(json) {
-  	// Render the parsed body
-  	document.getElementById('result_json').innerHTML = JSON.stringify(json);
-  })
-}
+callWs = function () {
+    // The Endpoint URL
+    let url = "https://jsonplaceholder.typicode.com/posts/1";
+    fetch(url)
+        .then(function (response) {
+            // Render the Response Status
+            document.getElementById("result").innerHTML = response.status;
+            // Parse the body as JSON
+            return response.json();
+        })
+        .then(function (json) {
+            // Render the parsed body
+            document.getElementById("result_json").innerHTML = JSON.stringify(json);
+        });
+};
 
-button2_function = function(){
-    // const url = 'http://10.195.100.158:5000/api/camera_settings';
-    const url = 'http://127.0.0.1:5000/api/camera_settings';
+button2_function = function () {
+    const url = "http://10.195.100.158:5000/api/camera_settings";
+    // const url = 'http://127.0.0.1:5000/api/camera_settings';
 
-    console.log('url: ', url);
+    console.log("url: ", url);
 
-    // const params = { 
+    // const params = {
     //   model: 'BFS-U3-161S7M',
     //   pixel_format: 'Mono8',
     //   width: 5320,
@@ -34,22 +34,22 @@ button2_function = function(){
     // //   bin_mode_y: 'average'
     // };
 
-    const params = { 
-          model: 'BFS-U3-200S6M',
-          pixel_format: 'Mono8',
-          width: 5472,
-          isp: 'OFF',
-          adc: '10 Bit'
-        };
-        
+    const params = {
+        model: "BFS-U3-200S6M",
+        pixel_format: "Mono8",
+        width: 5472,
+        isp: "OFF",
+        adc: "10 Bit",
+    };
+
     const queryString = Object.entries(params)
-      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-      .join('&');
-    
+        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+        .join("&");
+
     fetch(`${url}?${queryString}`)
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error(error));
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
 
     // const url = 'http://127.0.0.1:5000/';
     // console.log('url: ', url);
@@ -58,6 +58,4 @@ button2_function = function(){
     //   .then(response => response.json())
     //   .then(data => console.log(data))
     //   .catch(error => console.error(error));
-    
-}
-
+};
