@@ -86,7 +86,7 @@ def camera_settings():
     cur = conn.cursor()
 
     query = """
-SELECT *
+SELECT id, model, pixel_format, width, height, isp, adc, frame_rate
 FROM camera_settings
 WHERE model = '{}'
 AND pixel_format = '{}'
@@ -114,7 +114,8 @@ limit 10000
             'witdh': row[3],
             'height': row[4],
             'isp': row[5],
-            'adc': row[6]
+            'adc': row[6],
+            'frame_rate': row[7]
         })
         
     return jsonify(data)

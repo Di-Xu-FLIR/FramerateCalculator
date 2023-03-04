@@ -20,27 +20,27 @@ button2_function = function(){
 
     console.log('url: ', url);
 
-    const params = { 
-      model: 'BFS-U3-161S7M',
-      pixel_format: 'Mono8',
-      width: 5320,
-      //   height: 8,
-      isp: 'OFF',
-      adc: '8 Bit'
-    //   bin_selector: 'isp',
-    //   bin_x: 1,
-    //   bin_y: 1,
-    //   bin_mode_x: 'average',
-    //   bin_mode_y: 'average'
-    };
-
     // const params = { 
-    //       model: 'BFS-U3-200S6M',
-    //       pixel_format: 'Mono8',
-    //       width: 5472,
-    //       isp: 'OFF',
-    //       adc: '10 Bit'
-    //     };
+    //   model: 'BFS-U3-161S7M',
+    //   pixel_format: 'Mono8',
+    //   width: 5320,
+    //   //   height: 8,
+    //   isp: 'OFF',
+    //   adc: '8 Bit'
+    // //   bin_selector: 'isp',
+    // //   bin_x: 1,
+    // //   bin_y: 1,
+    // //   bin_mode_x: 'average',
+    // //   bin_mode_y: 'average'
+    // };
+
+    const params = { 
+          model: 'BFS-U3-200S6M',
+          pixel_format: 'Mono8',
+          width: 5472,
+          isp: 'OFF',
+          adc: '10 Bit'
+        };
         
     const queryString = Object.entries(params)
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
