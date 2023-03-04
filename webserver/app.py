@@ -1,5 +1,5 @@
 import logging
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import psycopg2
 from flask_cors import CORS
 import json
@@ -29,49 +29,95 @@ conn = psycopg2.connect(database="frame_rate_calculator", user="postgres", passw
 # Define a route to display the data from the database
 @app.route('/')
 def index():
-    cur = conn.cursor()
+    # cur = conn.cursor()
 
-    # cur.execute("SELECT * FROM users")
+    # # cur.execute("SELECT * FROM users")
+    # # rows = cur.fetchall()
+    # # html = '<html><body><table>'
+    # # for row in rows:
+    # #     html += '<tr><td>{}</td><td>{}</td></tr>'.format(row[1], row[2])
+    # # html += '</table></body></html>'
+
+    # cur.execute("SELECT * FROM bfs_u3_161s7m")
     # rows = cur.fetchall()
     # html = '<html><body><table>'
     # for row in rows:
-    #     html += '<tr><td>{}</td><td>{}</td></tr>'.format(row[1], row[2])
+    #     html += '<tr><td>{}</td> <td>{}</td> <td>{}</td> <td>{}</td></tr>'.format(row[0], row[1], row[2], row[3])
     # html += '</table></body></html>'
 
-    cur.execute("SELECT * FROM bfs_u3_161s7m")
-    rows = cur.fetchall()
-    html = '<html><body><table>'
-    for row in rows:
-        html += '<tr><td>{}</td> <td>{}</td> <td>{}</td> <td>{}</td></tr>'.format(row[0], row[1], row[2], row[3])
-    html += '</table></body></html>'
+    # return html
 
-    return html
+    return camera_settings()
 
 @app.route('/api/camera_settings')
 def camera_settings():
     app.logger.info('BEG camera_settings')
+    
     print('BEG camera_settings')
-    # name = request.args.get('name')
-    request_args = request.args
-    print('request_args: ', request_args)
+
+    print('request.args: ', request.args)
+
+
+    model = request.args.get('model', 'BFS-U3-161S7M')
+    pixel_format = request.args.get('pixel_format', 'Mono8')
+    width = request.args.get('width', 5320)
+    height = request.args.get('height', 8)
+    isp = request.args.get('isp', 'OFF')
+    adc = request.args.get('adc', '8 Bit')
+    bin_selector = request.args.get('bin_selector', 'isp')
+    bin_x = request.args.get('bin_x', 1)
+    bin_y = request.args.get('bin_y', 1)
+    bin_mode_x = request.args.get('bin_mode_x', 'average')
+    bin_mode_y = request.args.get('bin_mode_y', 'average')
+    
+    # print('model: ', model)
+    # print('pixel_format: ', pixel_format)
+    # print('width: ', width)
+    # print('height: ', height)
+    # print('isp: ', isp)
+    # print('adc: ', adc)
+    # print('bin_selector: ', bin_selector)
+    # print('bin_x: ', bin_x)
+    # print('bin_y: ', bin_y)
+    # print('bin_mode_x: ', bin_mode_x)
+    # print('bin_mode_y: ', bin_mode_y)
+
 
     cur = conn.cursor()
-    print('foo1')
-    cur.execute("SELECT * FROM camera_settings limit 3")
-    print('foo2')
+
+    query = """
+SELECT *
+FROM camera_settings
+WHERE model = '{}'
+AND pixel_format = '{}'
+AND width = '{}'
+AND isp = '{}'
+AND adc = '{}'
+limit 10000
+""".format(model, pixel_format, width, isp, adc)
+
+    print('query: ', query)
+
+    cur.execute(query)
+
     rows = cur.fetchall()
-    print('foo3')
-    print('rows: ', rows)
-    
+    # print('rows: ', rows)
 
-    data = {
-        'name': 'John',
-        'age': 30,
-        'city': 'New York'
-    }
-    return json.dumps(data)
-
-
+    # conn.close()
+    data = []
+    for row in rows:
+        print('row: ', row)
+        data.append({
+            'id': row[0],
+            'model': row[1],
+            'pixel_format': row[2],
+            'witdh': row[3],
+            'height': row[4],
+            'isp': row[5],
+            'adc': row[6]
+        })
+        
+    return jsonify(data)
 
 
 if __name__ == '__main__':
