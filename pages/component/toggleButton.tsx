@@ -1,8 +1,9 @@
-import { useState } from "react";
+type ToggleButtonPropType = {
+    isISPOn: boolean;
+    setIsISPOn: (value: boolean) => void;
+};
 
-const ToggleButton = () => {
-    const [isISPOn, setIsISPOn] = useState(false);
-
+const ToggleButton = ({ isISPOn, setIsISPOn }: ToggleButtonPropType) => {
     return (
         <div className="w-full my-auto p-5">
             <label className="relative inline-flex items-center mb-4 cursor-pointer">

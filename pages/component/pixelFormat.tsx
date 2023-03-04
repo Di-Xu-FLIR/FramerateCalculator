@@ -26,9 +26,19 @@ const PixelFormatData = [
     "LLCBayerRG8",
 ];
 
-const PixelFormat = ({ pixelFormat }: { pixelFormat: string[] }) => {
+type PixelPropsType = {
+    pixelFormat: string[];
+    setSelectedPixelFormat: (value: string) => void;
+    selectedPixelFormat: string;
+};
+
+const PixelFormat = ({
+    pixelFormat,
+    selectedPixelFormat,
+    setSelectedPixelFormat,
+}: PixelPropsType) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedPixelFormat, setSelectedPixelFormat] = useState("Select Pixel Format");
+    // const [selectedPixelFormat, setSelectedPixelFormat] = useState("Select Pixel Format");
     return (
         <div className=" w-full my-auto p-4">
             <div
@@ -41,22 +51,21 @@ const PixelFormat = ({ pixelFormat }: { pixelFormat: string[] }) => {
 
             <div className={`Content mt-2 ${isOpen ? "" : "hidden"}`}>
                 <ul className="Options mt-2 overflow-y-auto max-h-40">
-                    {(pixelFormat.length > 0 ? pixelFormat : PixelFormatData).map(
-                        (pixel: string) => {
-                            return (
-                                <li
-                                    key={pixel}
-                                    className="bg-white p-2 hover:bg-slate-200 cursor-pointer text-left font-semibold"
-                                    onClick={() => {
-                                        setSelectedPixelFormat(pixel);
-                                        setIsOpen(false);
-                                    }}
-                                >
-                                    {pixel}
-                                </li>
-                            );
-                        }
-                    )}
+                    {/* {(pixelFormat.length > 0 ? pixelFormat : PixelFormatData).map( */}
+                    {pixelFormat.map((pixel: string) => {
+                        return (
+                            <li
+                                key={pixel}
+                                className="bg-white p-2 hover:bg-slate-200 cursor-pointer text-left font-semibold"
+                                onClick={() => {
+                                    setSelectedPixelFormat(pixel);
+                                    setIsOpen(false);
+                                }}
+                            >
+                                {pixel}
+                            </li>
+                        );
+                    })}
                 </ul>
             </div>
         </div>

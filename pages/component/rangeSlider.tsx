@@ -5,19 +5,40 @@ type RangeSliderProps = {
     min: string;
     step: string;
     text: string;
+    selectedHeight?: number;
+    setSelectedHeight?: (value: number) => void;
 };
 
-const RangeSlider = ({ max, min, step, text }: RangeSliderProps) => {
+const RangeSlider = ({
+    max,
+    min,
+    step,
+    text,
+    selectedHeight,
+    setSelectedHeight,
+}: RangeSliderProps) => {
     const rangeRef = useRef<HTMLInputElement>(null);
 
-    const [value, setValue] = useState<number>(650);
+    const [value, setValue] = useState<number>(120);
     const handleChange = () => {
-        if (rangeRef.current) setValue(parseInt(rangeRef.current.value));
+        if (rangeRef.current) {
+            if (text === "ROI Height" && setSelectedHeight) {
+                setSelectedHeight(parseInt(rangeRef.current.value));
+                return;
+            }
+
+            setValue(parseInt(rangeRef.current.value));
+        }
     };
 
     const handleNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(parseInt(e.target.value));
+        if (text === "ROI Height" && setSelectedHeight) {
+            setSelectedHeight(parseInt(e.target.value));
+        } else {
+            setValue(parseInt(e.target.value));
+        }
     };
+
     return (
         <>
             <label className="px-4">{text}</label>
@@ -37,7 +58,7 @@ const RangeSlider = ({ max, min, step, text }: RangeSliderProps) => {
                 <input
                     type="number"
                     className="w-16 outline-none bg-white border border-gray-800 p-1"
-                    value={value}
+                    value={selectedHeight ? selectedHeight : value}
                     onChange={handleNumberInputChange}
                     max={parseInt(max)}
                     min={parseInt(min)}

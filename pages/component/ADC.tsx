@@ -8,31 +8,37 @@ const ADCData = [
     { id: 4, name: "16 Bit" },
 ];
 
-const ADC = () => {
+type ADCPropsType = {
+    adc: string[];
+    selectedADC: string;
+    setSelectedADC: (item: string) => void;
+};
+
+const ADC = ({ adc, selectedADC, setSelectedADC }: ADCPropsType) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedADC, setSelectedADC] = useState("Select ADC");
+    // const [selectedADC, setSelectedADC] = useState("Select ADC");
     return (
         <div className=" w-full my-auto p-4">
             <div
                 className="SelectBtn border border-black h-14 p-4 flex items-center justify-between cursor-pointer"
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <span>{selectedADC}</span>
+                <span>{selectedADC || "Select ADC"}</span>
                 {isOpen ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
             </div>
 
             <div className={`Content mt-2 ${isOpen ? "" : "hidden"}`}>
                 <ul className="Options mt-2 overflow-y-auto max-h-40">
-                    {ADCData.map((adc) => {
+                    {adc.map((item: string) => {
                         return (
                             <li
-                                key={adc.id}
+                                key={item}
                                 className="bg-white p-2 hover:bg-slate-200 cursor-pointer text-left font-semibold"
                                 onClick={() => {
-                                    setSelectedADC(adc.name), setIsOpen(false);
+                                    setSelectedADC(item), setIsOpen(false);
                                 }}
                             >
-                                {adc.name}
+                                {item}
                             </li>
                         );
                     })}
