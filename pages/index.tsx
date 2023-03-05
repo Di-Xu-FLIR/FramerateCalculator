@@ -1,11 +1,11 @@
 import Head from "next/head";
-import ThemeChanger from "../component/themeChanger";
-import SearchModel from "../component/searchModel";
-import PixelFormat from "../component/pixelFormat";
-import RangeSlider from "../component/rangeSlider";
-import ToggleButton from "../component/toggleButton";
-import LineChart from "../component/chart";
-import ADC from "../component/ADC";
+import ThemeChanger from "../components/themeChanger";
+import SearchModel from "../components/searchModel";
+import PixelFormat from "../components/pixelFormat";
+import RangeSlider from "../components/rangeSlider";
+import ToggleButton from "../components/toggleButton";
+import LineChart from "../components/chart";
+import ADC from "../components/ADC";
 import { useEffect, useState } from "react";
 
 export default function Home() {
