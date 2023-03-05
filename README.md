@@ -1,5 +1,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+
+## Demo
+![](https://github.com/Di-Xu-FLIR/FramerateCalculator/blob/main/Recording%202023-03-04%20at%2010.35.15.gif)
+
+
 ## Getting Started
 
 First, run the development server:
