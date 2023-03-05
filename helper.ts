@@ -1,6 +1,6 @@
 //Data Sample, the key is weird save it as an example
 
-export const data = [
+const data = [
     {
         _id: "6402457e837556fcaf93c50b",
         Model: "BFS-U3-31S4C",
