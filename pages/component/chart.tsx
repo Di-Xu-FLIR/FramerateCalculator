@@ -115,8 +115,8 @@ const LineChart = ({
         try {
             const resp = await fetch("/api/getChartData", requestOptions);
             const chartData = await resp.json();
-            const labels = chartData.map((item: string[]) => item[" HEIGHT"]);
-            const dataForDataSet = chartData.map((item: string[]) => item[" FPS "]);
+            const labels = chartData.map((item: any) => item[" HEIGHT"]);
+            const dataForDataSet = chartData.map((item: any) => item[" FPS "]);
             setChartData({ labels: labels, data: dataForDataSet });
         } catch (err) {
             console.error("here", err);
