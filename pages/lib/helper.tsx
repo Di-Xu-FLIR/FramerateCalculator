@@ -1,3 +1,5 @@
+//Data Sample, the key is weird save it as an example
+
 export const data = [
     {
         _id: "6402457e837556fcaf93c50b",
@@ -36,16 +38,3 @@ export const data = [
         " FPS ": "1000.000",
     },
 ];
-
-export const findDistinct = (modelInfo: any[]) => {
-    const result: string[] = [];
-    for (let i = 0; i < modelInfo.length; i++) {
-        const pixelFormat = modelInfo[i][" PixelFormat"];
-        if (result.includes(pixelFormat)) {
-            continue;
-        } else {
-            result.push(pixelFormat);
-        }
-    }
-    return result;
-};

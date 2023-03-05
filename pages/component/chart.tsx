@@ -119,14 +119,13 @@ const LineChart = ({
             const dataForDataSet = chartData.map((item: string[]) => item[" FPS "]);
             setChartData({ labels: labels, data: dataForDataSet });
         } catch (err) {
-            console.log("here", err);
+            console.error("here", err);
         }
     };
 
     useEffect(() => {
         fetchChartData();
     }, [selectedModel, isISPOn, selectedADC, selectedPixelFormat]);
-    // console.log(ChartData.data, ChartData.labels, defaultData.datasets[0].borderColor);
 
     return <Line options={defaultOptions} data={defaultData} />;
 };

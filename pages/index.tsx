@@ -13,10 +13,8 @@ export default function Home() {
     const [modelList, setModelList] = useState(["BFS-U3-32S4C", "BFS-U3-31S4C", "BFS-U3-27S5C"]);
     const [modelInfo, setModelInfo] = useState(null);
     const [pixelFormat, setPixelFormat] = useState([""] || null);
-    const [chartData, setChartData] = useState({ labels: [], data: [] });
     const [ROI, setROI] = useState({ max: 1000, min: 6, step: 2, maxWidth: 1000 });
     const [adc, setAdc] = useState(["8 Bit", "10 Bit", "12 Bit"]);
-    const [ISP, setISP] = useState("");
 
     //data for backend query
     const [isISPOn, setIsISPOn] = useState(false);
@@ -27,6 +25,7 @@ export default function Home() {
 
     const [fps, setFps] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     //data needed for calculation which is the
     // model, pixelFormat, ISP, ROI Height, ADC
@@ -38,11 +37,10 @@ export default function Home() {
             setModelList(json);
         };
         fetchModelList();
-        console.log("=======Camera List loaded===========", modelList.length, "models");
     }, []);
 
     useEffect(() => {
-        console.log("New Camera Selected:", selectedModel);
+        setLoading(true);
 
         const requestOptions = {
             method: "POST",
@@ -54,27 +52,19 @@ export default function Home() {
             const resp = await fetch("/api/cameraData", requestOptions);
             const cameraInfo = await resp.json();
             setModelInfo(cameraInfo);
-            // setPixelFormat(findDistinct(cameraInfo));
-            const labels = cameraInfo.map((label: string) => Number(label[" HEIGHT"]));
-            const listOfAdc = cameraInfo.map((item: string) => item[" ADC"]);
-            const listOfPixelFormat = cameraInfo.map((item: string) => item[" PixelFormat"]);
 
-            if (cameraInfo && cameraInfo[0]) {
-                const uniqueHeight: any = [...new Set(labels)];
-                const uniqueAdc: any = [...new Set(listOfAdc)];
-                const uniquePixelFormat: any = [...new Set(listOfPixelFormat)];
-                setPixelFormat(uniquePixelFormat);
-                setROI({
-                    min: uniqueHeight[0],
-                    max: uniqueHeight[uniqueHeight.length - 1],
-                    step: uniqueHeight[1] - uniqueHeight[0],
-                    maxWidth: Number(cameraInfo[0][" WIDTH"]),
-                });
-                setAdc(uniqueAdc);
-            }
-            // const data = cameraInfo.map((data: string) => Number(data[" FPS "]));
-            // setChartData({ labels: labels, data: data });
+            setPixelFormat(cameraInfo.listOfPixelFormat);
+            setROI({
+                min: cameraInfo.listOfHeight[0],
+                max: cameraInfo.listOfHeight[cameraInfo.listOfHeight.length - 1],
+                step: cameraInfo.listOfHeight[1] - cameraInfo.listOfHeight[0],
+                maxWidth: Number(cameraInfo.maxWidth),
+            });
+            setAdc(cameraInfo.listOfAdc);
         };
+
+        setLoading(false);
+        // };
         fetchModel();
     }, [selectedModel]);
 
@@ -101,7 +91,6 @@ export default function Home() {
             const fpsResp = await resp.json();
             setFps(fpsResp);
         } catch (err) {
-            console.log("here", err);
             setError("Can not find matching result, please try again");
         }
     };
@@ -134,6 +123,7 @@ export default function Home() {
                         pixelFormat={pixelFormat}
                         selectedPixelFormat={selectedPixelFormat}
                         setSelectedPixelFormat={setSelectedPixelFormat}
+                        isLoading={loading}
                     />
                     <ToggleButton isISPOn={isISPOn} setIsISPOn={setIsISPOn} />
                     <RangeSlider max={ROI.maxWidth.toString()} min="6" step="2" text="ROI Width" />
@@ -167,7 +157,15 @@ export default function Home() {
                             }  my-auto flex justify-center `}
                         >
                             <div className="flex items-baseline">
-                                <p className="text-5xl mr-4">{fps ? fps : "Calculate"} </p>
+                                <div className="text-5xl mr-4">
+                                    {fps ? (
+                                        <p>
+                                            {fps} <span className="text-2xl">FPS</span>
+                                        </p>
+                                    ) : (
+                                        "Calculate"
+                                    )}{" "}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -185,7 +183,6 @@ export default function Home() {
                         selectedADC={selectedADC}
                         selectedPixelFormat={selectedPixelFormat}
                     />
-                    {/* <LineChart chartData={chartData} /> */}
                 </div>
             </main>
         </div>
