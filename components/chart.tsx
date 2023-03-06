@@ -62,8 +62,9 @@ const LineChart = ({
         },
     };
 
-    let labels = ["January", "February", "March", "April", "May", "June", "July"];
-    let defaultDataForDataSet = labels.map(() => faker.datatype.number({ min: -1000, max: 1000 }));
+    let labels = ["1", "2", "3", "4", "5", "6", "7"];
+    // let defaultDataForDataSet = labels.map(() => faker.datatype.number({ min: -1000, max: 1000 }));
+    let defaultDataForDataSet: any = [];
     if (ChartData.labels.length > 0) {
         labels = ChartData.labels;
         defaultDataForDataSet = ChartData.data;
