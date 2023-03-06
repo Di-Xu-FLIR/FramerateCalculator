@@ -57,7 +57,7 @@ export default function Home() {
             setROI({
                 min: cameraInfo.listOfHeight[0],
                 max: cameraInfo.listOfHeight[cameraInfo.listOfHeight.length - 1],
-                step: cameraInfo.listOfHeight[1] - cameraInfo.listOfHeight[0],
+                step: cameraInfo.listOfHeight[3] - cameraInfo.listOfHeight[2],
                 maxWidth: Number(cameraInfo.maxWidth),
             });
             setAdc(cameraInfo.listOfAdc);
