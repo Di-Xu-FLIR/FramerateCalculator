@@ -1,40 +1,37 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-
 ## Demo
+
 ![](https://github.com/Di-Xu-FLIR/FramerateCalculator/blob/main/Recording%202023-03-04%20at%2010.35.15.gif)
 
+Or try it live https://framerate-calculator.vercel.app/
 
 ## Getting Started
 
 First, run the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
 ```
-
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Region of Interest Framerate Calculator
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Welcome to the Region of Interest Framerate Calculator!
+This is a project created by Team #3, which includes Avner Moshkovitz, Cheng Peng, Demos Roussinos, Di Xu, and Kenneth Zhang.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### The Problem
 
-## Learn More
+Many of our customers often ask for the resulting framerate when they take a region of interest, but the current documentation only provides a small subset of resolutions. As a result, support needs to find the physical camera, try the customer settings, and send them the framerate. This can take more time as they keep asking for different settings, which is inefficient for both the customer and support.
 
-To learn more about Next.js, take a look at the following resources:
+### The Initial Solution
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Our team came up with a solution to grab actual framerate data from cameras while iterating through various settings, such as pixel format, ISP, ADC bit depth, width, and height. We store this data in a local database that can be easily updated by importing new csv files to a designated folder. The front-end of our application consumes this data and allows users to filter by camera model and properties, display the framerate for their settings, and display a framerate curve for their settings.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Enhancements
 
-## Deploy on Vercel
+To further improve our solution, we plan to apply curve fitting to help reduce the amount of data. Once we have a polynomial equation, we can iterate through binning options as well. Additionally, we aim to host the database on the cloud for easier access internally and possibly on the website. Finally, we hope to integrate the database with Digital Twin, which would help us provide even more value to our customers.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Thank you for your interest in our Region of Interest Framerate Calculator. We believe this project will save both our customers and support team time and effort.
