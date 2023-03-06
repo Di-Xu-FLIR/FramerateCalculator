@@ -55,9 +55,9 @@ export default function Home() {
 
             setPixelFormat(cameraInfo.listOfPixelFormat);
             setROI({
-                min: cameraInfo.listOfHeight[0],
-                max: cameraInfo.listOfHeight[cameraInfo.listOfHeight.length - 1],
-                step: cameraInfo.listOfHeight[3] - cameraInfo.listOfHeight[2],
+                min: cameraInfo.sortedHeight[0].toString(),
+                max: cameraInfo.sortedHeight[cameraInfo.sortedHeight.length - 1].toString(),
+                step: cameraInfo.sortedHeight[1] - cameraInfo.sortedHeight[0],
                 maxWidth: Number(cameraInfo.maxWidth),
             });
             setAdc(cameraInfo.listOfAdc);

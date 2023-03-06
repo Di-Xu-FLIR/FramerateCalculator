@@ -17,12 +17,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 const listOfHeight: string[] = await collection.distinct(" HEIGHT");
                 const getFirstRecord = await collection.findOne();
                 let maxWidth;
+                let sortedHeight;
                 if (getFirstRecord) {
                     maxWidth = getFirstRecord[" WIDTH"];
                 }
-
+                if (listOfHeight) {
+                    sortedHeight = listOfHeight.map((num) => Number(num)).sort((a, b) => a - b);
+                }
                 client.close();
-                return { listOfPixelFormat, listOfAdc, listOfHeight, maxWidth };
+                return { listOfPixelFormat, listOfAdc, sortedHeight, maxWidth };
             };
             const data = await getCameraInfo();
             res.status(200).json(data);
