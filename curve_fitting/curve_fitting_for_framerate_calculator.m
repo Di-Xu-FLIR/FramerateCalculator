@@ -1,15 +1,40 @@
-%% Read data -- 1 csv, which contains 1 camera data with various settings
-filename = 'C:\Users\dxu\Documents\GitHub\FramerateCalculator\csv\BFS-U3-50S5C';
-M = readtable(filename);
-end_row = 1022
-% number_of_rows_in_1_setting = 1022
-number_of_rows_in_1_setting = determine_number_of_rows_in_1_setting(M)
-start_row = 1 %6  % cut off the 1000 flat area
+%% Get a list of csv filenames 
+% filename = 'C:\Users\dxu\Documents\GitHub\FramerateCalculator\csv\BFS-U3-50S5C';
+directory = 'C:\Users\dxu\OneDrive - Teledyne Technologies Inc\Hackathon_Framerate_Calculator_2023_03\csv\';
+listing = dir(directory);
+num_of_files = size(listing,1)-2;
+filenames = strings(num_of_files, 1);
+for ind = 1:num_of_files  % Exclude '.' and '..' in the directory list
+    filenames([ind]) = listing(ind+2).name;
+end
+% filenames
 
-total_rows = height(M);
-num_of_settings = total_rows/number_of_rows_in_1_setting; 
-for setting_ind = 1:num_of_settings
-    curve_fit_for_1_setting(M, start_row+(setting_ind-1)*number_of_rows_in_1_setting, setting_ind*number_of_rows_in_1_setting)
+% % Define a database table file name
+% output_table_filename = convertStringsToChars('./output/table.csv');
+% fid = fopen('./output/table.csv','w');
+% % fwrite(fid, B,'double'); 
+% header = ["Model" "PixelFormat" "WIDTH" "HEIGHT" "ISP" "ADC" "BINX" "BINY" "P1" "P2" "P3"] %,"P4",P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17';
+% % dlmwrite(output_table_filename,header,'delimiter',',');
+% dlmwrite(output_table_filename, B,  'precision','%.15f', 'delimiter',',','-append');
+% save(output_table_filename, 'B', '-ascii', '-double', '-append')
+
+
+%% Loop over all csv files
+for file_ind = 1:length(filenames)
+    %% Read data -- 1 csv, which contains 1 camera data with various settings
+    % filename = 'C:\Users\dxu\OneDrive - Teledyne Technologies Inc\Hackathon_Framerate_Calculator_2023_03\csv\BFS-U3-50S5C';
+    filename = directory + filenames([file_ind])
+    M = readtable(filename);
+    
+    number_of_rows_in_1_setting = determine_number_of_rows_in_1_setting(M)
+    total_rows = height(M);
+    num_of_settings = total_rows/number_of_rows_in_1_setting; 
+    % Iterate through all settings in a csv file
+    for setting_ind = 1:num_of_settings
+        start_row = 1; 
+        % Curve fit 1 setting
+        curve_fit_for_1_setting(M, start_row+(setting_ind-1)*number_of_rows_in_1_setting, setting_ind*number_of_rows_in_1_setting)
+    end
 end
 
 function number_of_rows_in_1_setting = determine_number_of_rows_in_1_setting(M)
@@ -65,7 +90,7 @@ function curve_fit_for_1_setting(M, start_row, end_row)
     % plot_fit_error(X, Y, func, B)
 
     %% Polyfit - Fit polynomial to data
-    degree = 16   % This was chosen to have very small fitting error, less than 1 fps error on average
+    degree = 16;   % This was chosen to have very small fitting error, less than 1 fps error on average
     B = polyfit(X,Y,degree);
     Y_eval = polyval(B, X);
 
@@ -91,10 +116,13 @@ function curve_fit_for_1_setting(M, start_row, end_row)
     annotation('textbox', [0.65, 0.7, 0.2, 0.06], 'String', "RMS = " + num2str(RMS))
 
     % save polynomial coefficients in double float precision 
-    coef_filename = camera_config_name + ".dat";
+    coef_filename = "./output/" + camera_config_name + ".dat";
     coef_filename_in_chars = convertStringsToChars(coef_filename) % Convert string to chars to be used as filename in save function
     % save coef_filename B -ascii -double
     save(coef_filename_in_chars, 'B', '-ascii', '-double')
+    
+    % Append camera setting and coefficients to one file, acted as a
+    % database table
 
 end
 
