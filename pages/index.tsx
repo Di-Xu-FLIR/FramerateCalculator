@@ -53,6 +53,12 @@ export default function Home() {
             const cameraInfo = await resp.json();
             setModelInfo(cameraInfo);
 
+            //reset all selected parameters to default values
+            setIsISPOn(false);
+            setSelectedADC("");
+            setSelectedHeight(120);
+            setSelectedPixelFormat("Select Pixel Format");
+
             setPixelFormat(cameraInfo.listOfPixelFormat);
             setROI({
                 min: cameraInfo.sortedHeight[0].toString(),
